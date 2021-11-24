@@ -1,13 +1,16 @@
 
 let socket = io( 'http://localhost:8888' );
 
+let userName = prompt("What is your name?")
+
+// socket.emit( 'greeting');
 $( '.messageForm' ).on( 'submit', function(event){
     event.preventDefault();
 
-    let userName = $( '#userName' ).val();
     let userMessage = $( '#userMessage' ).val();
 
     let send = {
+        id : socket.id,
         name: userName,
         message: userMessage
     };
@@ -15,23 +18,11 @@ $( '.messageForm' ).on( 'submit', function(event){
     socket.emit( 'sendMessage', send );
 });
 
+// socket.on( 'allMessages', function(data){
+    
+// });
+
 socket.on( 'sendAll', function( data ){
     let newMessage = `<p> ${data.name}: ${data.message} </p>`;
     $( '.messageBox' ).append( newMessage );
 });
-
-/*
-socket.emit( 'greeting', {name : firstName} );
-
-socket.on( 'information', function(data){
-    console.log( data.message );
-});
-
-$( '.broadCast' ).on( 'click', function(event){
-    socket.emit( 'general', {});
-});
-
-socket.on( 'listenAll', function( data ){
-    console.log( data.message );
-});
-*/
